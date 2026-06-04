@@ -9,16 +9,28 @@ spring:
           enabled: true
           lower-case-service-id: true
       routes:
+        # 1. RUTE AUTH SERVICE
         - id: auth-service-route
           uri: lb://AUTH-SERVICE
           predicates:
             - Path=/api/auth, /api/auth/**, /oauth2/**, /.well-known/**, /login, /login/**, /
+
+        # 2. RUTE EMPLOYEE SERVICE
+        - id: employee-service-route
+          uri: lb://EMPLOYEE-SERVICE
+          predicates:
+            - Path=/api/employees/**, /api/departments/**
+
+        # 3. RUTE PERMISSION SERVICE (Pengajuan Cuti)
+        - id: permission-service-route
+          uri: lb://PERMISSION-SERVICE
+          predicates:
+            - Path=/api/permissions/**, /api/leaves/**
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
   instance:
-    # Wajib ditambahkan di config pusat juga
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
