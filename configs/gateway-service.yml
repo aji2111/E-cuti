@@ -2,19 +2,23 @@ server:
   port: 8080
 
 spring:
-  application:
-    name: gateway-service
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,refresh
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: auth-service-route
+          uri: lb://AUTH-SERVICE
+          predicates:
+            - Path=/api/auth, /api/auth/**, /oauth2/**, /.well-known/**, /login, /login/**, /
 
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8761/eureka
-
+      defaultZone: http://localhost:8761/eureka/
   instance:
+    # Wajib ditambahkan di config pusat juga
     prefer-ip-address: true
+    instance-id: ${spring.application.name}:${server.port}
