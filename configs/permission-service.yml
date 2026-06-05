@@ -4,27 +4,25 @@ server:
 spring:
   application:
     name: permission-service
-
   datasource:
     url: jdbc:postgresql://localhost:5432/permission_db
     username: postgres
     password: postgres123
-
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,refresh
+  
+  # Tambahkan ini untuk validasi JWT
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://192.168.1.5:9000
 
 eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
-
   instance:
     prefer-ip-address: true
