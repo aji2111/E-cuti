@@ -4,8 +4,11 @@ server:
 spring:
   application:
     name: auth-service
-  config:
-    import: "optional:configserver:http://localhost:8888"
+  
+  # Solusi Error: Matikan Config Server jika belum siap
+  cloud:
+    config:
+      enabled: false
 
   datasource:
     url: jdbc:postgresql://localhost:5432/auth_db
@@ -14,7 +17,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update # Agar data tidak hilang saat restart
     show-sql: true
     properties:
       hibernate:
@@ -44,5 +47,3 @@ eureka:
   instance:
     prefer-ip-address: true
     instance-id: ${spring.application.name}:${server.port}
-    lease-renewal-interval-in-seconds: 10 
-    lease-expiration-duration-in-seconds: 30

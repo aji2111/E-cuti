@@ -4,16 +4,18 @@ server:
 spring:
   application:
     name: permission-service
+  cloud:
+    config:
+      enabled: false # Tambahkan ini agar seragam
   datasource:
     url: jdbc:postgresql://localhost:5432/permission_db
     username: postgres
     password: postgres123
   jpa:
+    open-in-view: false # Tambahan untuk menghilangkan warning
     hibernate:
       ddl-auto: update
     show-sql: true
-  
-  # Tambahkan ini untuk validasi JWT
   security:
     oauth2:
       resourceserver:
